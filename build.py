@@ -26,6 +26,8 @@ IMG_DIR = "illustrations"
 # Shown at the top of the page; leave empty to omit.
 TITLE = "Penser avec l’anachronisme : « science » et frontières des savoirs en Chine ancienne"
 AUTHOR = "Daniel Patrick MORGAN (CNRS-CRCAO)"
+EVENT = ("« Peut-on ou doit-on parler de science mésopotamienne ? "
+         "Différents points de vue sur une définition », 17 novembre 2026")
 
 # CJK ideographs (incl. extensions) and the punctuation found inside Chinese runs.
 HAN = r"⺀-⿟㐀-䶿一-鿿豈-﫿\U00020000-\U0003ffff"
@@ -187,6 +189,7 @@ def main():
     if TITLE:
         header = f"<header><h1>{french_spaces(html.escape(TITLE))}</h1>"
         header += f'<p class="author">{html.escape(AUTHOR)}</p>' if AUTHOR else ""
+        header += f'<p class="event">{french_spaces(html.escape(EVENT))}</p>' if EVENT else ""
         header += "</header>"
     page = PAGE.read_text(encoding="utf-8")
     page = page.replace("{{TITLE}}", french_spaces(html.escape(TITLE or "Article")))

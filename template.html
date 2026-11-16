@@ -16,6 +16,7 @@
   --bar-ink: #f4f1ea;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --cjk: "Songti TC", "Noto Serif CJK TC", "Noto Serif TC", "Source Han Serif TC", "PMingLiU", "MingLiU", serif;
+  --small: .889rem; /* 2 px below the 18 px body text */
   --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
@@ -34,6 +35,7 @@ h1 { font-size: clamp(1.4rem, 5.5vw, 1.9rem); line-height: 1.2; margin: 0 0 .5re
 .author { color: var(--muted); margin: 0; }
 h2 { font-size: 1.35rem; margin: 3rem 0 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
 p { margin: 0 0 1rem; hyphens: auto; }
+main > p, main > ul li, main > ol li, .slide p { text-align: justify; }
 a { color: var(--accent); text-underline-offset: .15em; }
 ul, ol { padding-left: 1.4rem; }
 li { margin-bottom: .35rem; }
@@ -56,15 +58,15 @@ html.no-zh .zh { display: none; }
 blockquote {
   margin: 0 0 1rem; padding: 1rem 1.25rem .25rem;
   background: var(--quote-bg); border-left: 3px solid var(--rule);
+  font-size: var(--small);
 }
 .slide.active blockquote { border-left-color: var(--accent); }
-blockquote p { hyphens: manual; }
 blockquote .zh-line { font-size: 1.05em; line-height: 1.75; margin-bottom: .35rem; text-align: justify; }
 blockquote .zh-line + p { margin-bottom: 1.15rem; }
 
 img { display: block; max-width: 100%; height: auto; max-height: 82vh; margin: 0 auto .75rem; }
 img[src$=".svg"] { width: 100%; object-fit: contain; }
-.caption { font-size: .85rem; color: var(--muted); text-align: center; text-wrap: balance; }
+.caption { font-size: var(--small); color: var(--muted); }
 
 table { width: 100%; border-collapse: collapse; font-size: .9rem; margin-bottom: .75rem; }
 th, td { text-align: left; vertical-align: top; padding: .4rem .6rem; border-bottom: 1px solid var(--rule); }
@@ -72,7 +74,7 @@ thead th { font-family: var(--sans); font-size: .72rem; text-transform: uppercas
 tbody th { font-weight: 600; border-right: 1px solid var(--rule); }
 .table-wrap { overflow-x: auto; }
 
-.footnotes { font-size: .85rem; color: #3b3833; overflow-wrap: break-word; }
+.footnotes { font-size: var(--small); color: #3b3833; overflow-wrap: break-word; }
 .footnotes ol { padding-left: 1.6rem; }
 .footnote-back { text-decoration: none; margin-left: .25em; }
 

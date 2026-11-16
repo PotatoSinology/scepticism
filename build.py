@@ -138,9 +138,28 @@ def mark_chinese(body: str) -> str:
     return "".join(parts)
 
 
+def french_spaces(body: str) -> str:
+    """Non-breaking spaces inside « » and before ; : ! ? (text nodes only).
+
+    Only existing spaces are converted, so URLs, times and English
+    punctuation (no space before the mark) are left alone.
+    """
+    nbsp, thin = "\u00a0", "\u202f"
+    parts = re.split(r"(<[^>]+>)", body)
+    for i, part in enumerate(parts):
+        if part.startswith("<") or not part:
+            continue
+        part = re.sub(r"«[ \u00a0\u202f]", "«" + nbsp, part)
+        part = re.sub(r"[ \u00a0\u202f]([»:])", nbsp + r"\1", part)
+        part = re.sub(r"[ \u00a0\u202f]([;!?])", thin + r"\1", part)
+        parts[i] = part
+    return "".join(parts)
+
+
 def postprocess(body: str) -> str:
     body = merge_table_groups(body)
     body = mark_chinese(body)
+    body = french_spaces(body)
     body = re.sub(r"<p>(<strong>(?:Figure|Tableau)\b)", r'<p class="caption">\1', body)
     body = body.replace("<img ", '<img loading="eager" decoding="async" ')
     body = re.sub(r'(<section[^>]*class="footnotes[^>]*>)\s*<hr ?/?>', r"\1\n<h2>Notes</h2>", body)
@@ -166,11 +185,11 @@ def main():
     body = postprocess(pandoc(md))
     header = ""
     if TITLE:
-        header = f"<header><h1>{html.escape(TITLE)}</h1>"
+        header = f"<header><h1>{french_spaces(html.escape(TITLE))}</h1>"
         header += f'<p class="author">{html.escape(AUTHOR)}</p>' if AUTHOR else ""
         header += "</header>"
     page = PAGE.read_text(encoding="utf-8")
-    page = page.replace("{{TITLE}}", html.escape(TITLE or "Article"))
+    page = page.replace("{{TITLE}}", french_spaces(html.escape(TITLE or "Article")))
     page = page.replace("{{HEADER}}", header).replace("{{BODY}}", body)
     OUT.write_text(page, encoding="utf-8")
     print(f"wrote {OUT.name}: {len(labels)} slides")
